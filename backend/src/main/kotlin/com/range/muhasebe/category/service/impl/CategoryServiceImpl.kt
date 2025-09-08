@@ -2,28 +2,60 @@ package com.range.muhasebe.category.service.impl
 
 import com.range.muhasebe.category.domain.model.Category
 import com.range.muhasebe.category.domain.repository.CategoryRepository
+import com.range.muhasebe.category.exception.CategoryNotFoundException
 import com.range.muhasebe.category.service.CategoryService
+import com.range.muhasebe.common.exception.RoleMismatchException
+import com.range.muhasebe.common.util.SecurityContextUtil
+import com.range.muhasebe.userManagement.user.service.UserService
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CategoryServiceImpl
     (
     private val categoryRepository: CategoryRepository,
-            ): CategoryService {
-    override fun addCategory(category: String) {
-        val category =
+    private val userService: UserService,
+    private val securityContextUtil: SecurityContextUtil
 
+): CategoryService {
+    @Transactional
+    override fun addCategory(name: String) {
+        val userid =securityContextUtil.getCurrentUserId()
+        if (!userService.isOwner(userid)) {
+            throw RoleMismatchException("Only owners can add categories")
+        }
+        val category = Category(
+            id = null,
+            name = name,
+            ownerID = userid,
+        )
+        categoryRepository.save(category)
     }
-
+    @Transactional
     override fun removeCategory(id: Long) {
-        TODO("Not yet implemented")
+        val userId = securityContextUtil.getCurrentUserId()
+        val category = findCategory(id)
+
+        if (category.ownerID != userId) {
+            throw RoleMismatchException("You are not allowed to remove this category")
+        }
+        categoryRepository.delete(category)
+    }
+    @Transactional(readOnly = true)
+    override fun findMyOwnCategories(pageable: Pageable): Page<Category> {
+        val userId = securityContextUtil.getCurrentUserId()
+        if (!userService.isOwner(userId)) {
+            throw RoleMismatchException("You're not allowed to view categories")
+        }
+        return categoryRepository.findCategoryByOwnerID(userId, pageable)
     }
 
-    override fun findAll(): Page<Category> {
-        TODO("Not yet implemented")
-    }
 
+    private fun findCategory(id: Long): Category {
+        return categoryRepository.findById(id).orElseThrow{CategoryNotFoundException()}
+    }
 
 }
 

@@ -8,6 +8,7 @@ import com.range.muhasebe.userManagement.user.domain.model.Role
 import com.range.muhasebe.userManagement.user.domain.model.User
 import com.range.muhasebe.userManagement.user.domain.repository.UserRepository
 import com.range.muhasebe.userManagement.user.dto.LoginRequest
+import com.range.muhasebe.userManagement.user.dto.RegisterDifferentRoleRequest
 import com.range.muhasebe.userManagement.user.dto.RegisterRequest
 import com.range.muhasebe.userManagement.user.service.AuthService
 import com.range.muhasebe.userManagement.user.service.helper.AuthServiceHelper
@@ -43,6 +44,13 @@ class AuthServiceImpl (
         return jwtUtil.generateToken(user.id,user.role)
     }
 
+    @Transactional
+    override fun registerDifferentRole(registerDifferentRoleRequest: RegisterDifferentRoleRequest) {
+         userRepository.save(
+            differentRoleRegister(registerDifferentRoleRequest)
+        )
+    }
+
     override fun forgotPassword(token: String, password: String) {
         val mail = authServiceHelper.getEmailAndConsumeToken(token)
             ?: throw AuthenticationException("Token is Invalid")
@@ -67,8 +75,21 @@ class AuthServiceImpl (
             username = registerRequest.username,
             role = Role.ROLE_USER,
             deleted = false,
-            firstName = TODO(),
-            lastName = TODO(),
+            firstName = registerRequest.firstname,
+            lastName = registerRequest.lastname,
+        )
+    }
+    fun differentRoleRegister(r: RegisterDifferentRoleRequest) : User{
+        return User(
+            id = null,
+            email = r.email,
+            password = passwordEncoder.encode(r.password),
+            username = r.username,
+            role = r.role,
+            deleted = false,
+            firstName = r.firstname,
+            lastName = r.lastname,
+
         )
     }
 

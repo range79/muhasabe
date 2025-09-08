@@ -26,7 +26,7 @@ class AdminUserServiceImpl (
         user.deleted=true
         userRepository.save(user)
     }
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     override fun deleteUserPermanently(userId: Long) {
         return userRepository.deleteById(userId)
     }

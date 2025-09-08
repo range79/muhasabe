@@ -9,6 +9,7 @@ import com.range.muhasebe.common.exception.RoleMismatchException
 import com.range.muhasebe.userManagement.user.domain.model.Role
 import com.range.muhasebe.userManagement.user.domain.model.User
 import com.range.muhasebe.userManagement.user.domain.repository.UserRepository
+import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -26,7 +27,7 @@ class AdminRoleServiceImpl(
     }
 
     private fun changeRole(userId: Long, role: Role, currentRole: Role) {
-        if(currentRole == role) throw RoleMismatchException("Role is not true")
+        if(currentRole == role) throw AccessDeniedException("Role is not true")
         val user = findUser(userId)
         user.role = role
         userRepository.save(user)
