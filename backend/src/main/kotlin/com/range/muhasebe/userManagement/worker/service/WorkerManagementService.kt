@@ -1,15 +1,16 @@
-package com.range.muhasebe.userManagement.owner.service
+package com.range.muhasebe.userManagement.worker.service
 
 import com.range.muhasebe.userManagement.owner.dto.WorkerAddRequest
+import com.range.muhasebe.userManagement.owner.dto.WorkerDetailedResponse
 import com.range.muhasebe.userManagement.owner.dto.WorkerResponse
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
-
-interface OwnerService {
-
+interface WorkerManagementService {
     fun createWorker(workerAddRequest: WorkerAddRequest)
     fun deleteWorker(workerId: Long)
     fun listAllWorkers(pageable: Pageable): Page<WorkerResponse>
     fun restoreWorker(workerAddRequest: WorkerAddRequest)
+    fun getDeletedWorkerDetailed(workerId: Long): WorkerDetailedResponse
+    fun getDeletedWorkers(pageable: Pageable): Page<WorkerResponse>
 }
