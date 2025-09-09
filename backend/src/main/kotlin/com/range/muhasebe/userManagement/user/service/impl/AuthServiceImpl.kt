@@ -45,8 +45,8 @@ class AuthServiceImpl (
     }
 
     @Transactional
-    override fun registerDifferentRole(registerDifferentRoleRequest: RegisterDifferentRoleRequest) {
-         userRepository.save(
+    override fun registerDifferentRole(registerDifferentRoleRequest: RegisterDifferentRoleRequest) : User{
+        return userRepository.save(
             differentRoleRegister(registerDifferentRoleRequest)
         )
     }

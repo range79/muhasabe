@@ -27,10 +27,7 @@ class UserServiceImpl(
     }
 
 
-    override fun isOwner(id: Long): Boolean {
-        val  user = getUserById(id)
-      return user.role == Role.ROLE_OWNER
-    }
+
 
 
 

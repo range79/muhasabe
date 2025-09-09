@@ -16,16 +16,16 @@ import org.springframework.transaction.annotation.Transactional
 class CategoryServiceImpl
     (
     private val categoryRepository: CategoryRepository,
-    private val userService: UserService,
+
     private val securityContextUtil: SecurityContextUtil
 
 ): CategoryService {
     @Transactional
     override fun addCategory(name: String) {
         val userid =securityContextUtil.getCurrentUserId()
-        if (!userService.isOwner(userid)) {
-            throw RoleMismatchException("Only owners can add categories")
-        }
+
+
+
         val category = Category(
             id = null,
             name = name,
@@ -46,9 +46,7 @@ class CategoryServiceImpl
     @Transactional(readOnly = true)
     override fun findMyOwnCategories(pageable: Pageable): Page<Category> {
         val userId = securityContextUtil.getCurrentUserId()
-        if (!userService.isOwner(userId)) {
-            throw RoleMismatchException("You're not allowed to view categories")
-        }
+
         return categoryRepository.findCategoryByOwnerID(userId, pageable)
     }
 

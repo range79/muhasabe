@@ -18,4 +18,5 @@ data class RegisterDifferentRoleRequest (
     @field:Email
     val email: String,
     val role: Role
+
 )

@@ -9,5 +9,4 @@ import org.springframework.data.domain.Pageable
 interface UserService {
     fun getUserById(userId: Long): UserResponse
     fun getAllUsers(pageable: Pageable): Page<UserResponse>
-    fun isOwner(id: Long): Boolean
 }

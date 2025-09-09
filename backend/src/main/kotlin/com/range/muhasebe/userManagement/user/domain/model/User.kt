@@ -10,7 +10,7 @@ import org.hibernate.annotations.SQLRestriction
 data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id : Long? = null,
+    var id : Long? = null,
     @Column(unique = true, nullable = false)
     val username : String,
     var firstName : String,
@@ -18,6 +18,7 @@ data class User(
     @Column(unique = true, nullable = false)
     @Email
     val email : String,
+
     var password : String,
     @Enumerated(EnumType.STRING)
     var role : Role,

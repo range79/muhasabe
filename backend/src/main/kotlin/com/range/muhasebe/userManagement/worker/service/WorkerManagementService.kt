@@ -10,7 +10,7 @@ interface WorkerManagementService {
     fun createWorker(workerAddRequest: WorkerAddRequest)
     fun deleteWorker(workerId: Long)
     fun listAllWorkers(pageable: Pageable): Page<WorkerResponse>
-    fun restoreWorker(workerAddRequest: WorkerAddRequest)
+    fun restoreWorker(workerId: Long)
     fun getDeletedWorkerDetailed(workerId: Long): WorkerDetailedResponse
     fun getDeletedWorkers(pageable: Pageable): Page<WorkerResponse>
 }

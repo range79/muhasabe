@@ -16,7 +16,7 @@ import java.time.LocalDateTime
 data class Worker (
     @Id
     @MapsId("userId")
-    var id: Long,
+    var id: Long? = null,
     @OneToOne
     @MapsId
     @JoinColumn(name = "id")
@@ -26,7 +26,7 @@ data class Worker (
     var startDate: LocalDateTime? = null,
     var deleted:Boolean = false,
     @Enumerated(EnumType.STRING)
-    var permissions: WorkerPermissions
+    var permissions: WorkerPermissions?
     )
 {
     fun delete(){

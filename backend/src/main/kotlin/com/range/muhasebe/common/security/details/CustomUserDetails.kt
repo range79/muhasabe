@@ -2,12 +2,20 @@ package com.range.muhasebe.common.security.details
 
 
 import com.range.muhasebe.userManagement.user.domain.model.User
+import com.range.muhasebe.userManagement.worker.domain.model.Worker
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
-class CustomUserDetails(private val user: User) : UserDetails {
+class CustomUserDetails(private val user: User,
+    private val worker: Worker?) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority?> {
-        return mutableListOf(user.role)
+        val authorities = mutableListOf<GrantedAuthority>()
+        authorities.add(user.role)
+        worker?.permissions?.let { perm ->
+            authorities.add(GrantedAuthority { "PERM_${perm.name}" })
+        }
+        return authorities
+
     }
 
     override fun getPassword(): String {
