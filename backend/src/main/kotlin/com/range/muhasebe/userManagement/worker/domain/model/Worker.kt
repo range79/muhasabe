@@ -22,7 +22,7 @@ data class Worker (
     @JoinColumn(name = "id")
     var user: User,
     var phoneNumber: String? = null,
-    var ownerId: Long? = null,
+    var ownerId:Long? = null,
     var startDate: LocalDateTime? = null,
     var deleted:Boolean = false,
     @Enumerated(EnumType.STRING)

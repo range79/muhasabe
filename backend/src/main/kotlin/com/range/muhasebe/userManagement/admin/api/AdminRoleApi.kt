@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @RequestMapping("\${api.prefix}/admin/group")
 interface AdminRoleApi {
-    @PatchMapping("/make-moderator/{userId}")
-    fun makeModerator(@PathVariable userId: Long)
-    @PatchMapping("/remove-moderator/{userId}")
-    fun removeModerator(@PathVariable userId: Long)
+    @PatchMapping("/make-owner/{userId}")
+    fun makeOwner(@PathVariable userId: Long)
+    @PatchMapping("/remove-owner/{userId}")
+    fun removeOwner(@PathVariable userId: Long)
 
 }

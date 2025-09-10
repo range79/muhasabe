@@ -36,7 +36,7 @@ class SecurityConfig(private val jwtFilter: JWTFilter) {
 
                 authorize ("$prefix/admin/user/**",hasAuthority(Role.ROLE_ADMIN.authority))
                 authorize ( "${prefix}/admin/group",hasAuthority(Role.ROLE_ADMIN.authority) )
-                authorize("$prefix/workers/management",hasRole(Role.ROLE_OWNER.authority))
+                authorize("$prefix/workers/management",hasAuthority(Role.ROLE_OWNER.authority))
 
                 authorize(anyRequest, authenticated)
             }

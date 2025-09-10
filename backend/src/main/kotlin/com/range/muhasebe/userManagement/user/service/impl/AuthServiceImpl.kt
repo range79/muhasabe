@@ -77,6 +77,7 @@ class AuthServiceImpl (
             deleted = false,
             firstName = registerRequest.firstname,
             lastName = registerRequest.lastname,
+            tenantId = null
         )
     }
     fun differentRoleRegister(r: RegisterDifferentRoleRequest) : User{
@@ -89,6 +90,7 @@ class AuthServiceImpl (
             deleted = false,
             firstName = r.firstname,
             lastName = r.lastname,
+            tenantId = null
 
         )
     }

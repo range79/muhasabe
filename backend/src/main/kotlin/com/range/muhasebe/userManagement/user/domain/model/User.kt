@@ -18,7 +18,7 @@ data class User(
     @Column(unique = true, nullable = false)
     @Email
     val email : String,
-
+    val tenantId : String?,
     var password : String,
     @Enumerated(EnumType.STRING)
     var role : Role,

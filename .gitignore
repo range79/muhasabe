@@ -43,3 +43,4 @@ out/
 backend/compose.yaml
 backend/src/main/resources/application.properties
 compose.yaml
+backend/src/main/resources/application.yaml

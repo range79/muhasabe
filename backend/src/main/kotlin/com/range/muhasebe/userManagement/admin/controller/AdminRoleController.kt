@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestController
 class AdminRoleController(
     private  val service: AdminRoleService
 ): AdminRoleApi {
-    override fun makeModerator(userId: Long) {
-       return  service.makeModerator(userId)
+    override fun makeOwner(userId: Long) {
+       return  service.makeOwner(userId)
     }
 
-    override fun removeModerator(userId: Long) {
-       return  service.removeModerator(userId)
+    override fun removeOwner(userId: Long) {
+       return  service.makerOwner(userId)
     }
 
 

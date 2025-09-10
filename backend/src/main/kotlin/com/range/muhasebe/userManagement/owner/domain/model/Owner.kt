@@ -17,6 +17,6 @@ data class Owner (
     @OneToOne
     @MapsId
     @JoinColumn(name = "id")
-    var user: User,
+var user: User,
     var phoneNumber: String? = null,
 )
