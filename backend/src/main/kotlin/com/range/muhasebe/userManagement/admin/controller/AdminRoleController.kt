@@ -13,7 +13,7 @@ class AdminRoleController(
     }
 
     override fun removeOwner(userId: Long) {
-       return  service.makerOwner(userId)
+       return  service.makeUser(userId)
     }
 
 
