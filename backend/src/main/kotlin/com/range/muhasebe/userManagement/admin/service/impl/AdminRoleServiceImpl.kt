@@ -8,6 +8,7 @@ import com.eloboostum.usermanagement.user.exception.UserNotFoundException
 import com.range.muhasebe.userManagement.user.domain.model.Role
 import com.range.muhasebe.userManagement.user.domain.model.User
 import com.range.muhasebe.userManagement.user.domain.repository.UserRepository
+import org.slf4j.LoggerFactory
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,14 +20,24 @@ class AdminRoleServiceImpl(
     private val dataSource: DataSource,
 
     ) : AdminRoleService {
+    private val log = LoggerFactory.getLogger(AdminRoleServiceImpl::class.java)
     @Transactional
     override fun makeOwner(userId: Long) {
 
-        val username= changeRole(userId, Role.ROLE_OWNER, Role.ROLE_USER)
+        val username = changeRole(userId, Role.ROLE_OWNER, Role.ROLE_USER)
         val tenantId = username
         dataSource.connection.use { conn ->
-            conn.createStatement().use { stmt ->
-                stmt.execute("CREATE SCHEMA IF NOT EXISTS $tenantId")
+            conn.createStatement().use { selectStmt ->
+                val tables = selectStmt.executeQuery("SELECT tablename FROM pg_tables WHERE schemaname = 'public'")
+                while (tables.next()) {
+                    val tableName = tables.getString("tablename")
+                    conn.createStatement().use { createStmt ->
+                        createStmt.execute(
+                            "CREATE TABLE IF NOT EXISTS \"$tenantId\".\"$tableName\" (LIKE public.\"$tableName\" INCLUDING ALL)"
+                        )
+                    }
+                    log.info("Table $tableName has been created in schema $tenantId")
+                }
             }
         }
     }

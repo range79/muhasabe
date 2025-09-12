@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Email
 import org.hibernate.annotations.SQLRestriction
 
 @Entity
-@Table(name = "users")
+@Table(schema = "public", name = "users")
 @SQLRestriction("deleted = false")
 data class User(
     @Id

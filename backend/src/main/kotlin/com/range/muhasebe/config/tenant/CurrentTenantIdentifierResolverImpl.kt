@@ -1,8 +1,0 @@
-package com.range.muhasebe.config.tenant
-
-import org.hibernate.context.spi.CurrentTenantIdentifierResolver
-
-class CurrentTenantIdentifierResolverImpl : CurrentTenantIdentifierResolver<String> {
-    override fun resolveCurrentTenantIdentifier(): String = TenantContext.getTenant()
-    override fun validateExistingCurrentSessions() = true
-}

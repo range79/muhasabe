@@ -1,13 +1,12 @@
 package com.range.muhasebe.userManagement.worker.service.impl
 
 import com.range.muhasebe.common.util.SecurityContextUtil
-import com.range.muhasebe.userManagement.owner.dto.WorkerAddRequest
-import com.range.muhasebe.userManagement.owner.dto.WorkerDetailedResponse
-import com.range.muhasebe.userManagement.owner.dto.WorkerResponse
+import com.range.muhasebe.userManagement.user.dto.WorkerAddRequest
+import com.range.muhasebe.userManagement.user.dto.WorkerDetailedResponse
+import com.range.muhasebe.userManagement.user.dto.WorkerResponse
 import com.range.muhasebe.userManagement.user.domain.model.Role
 import com.range.muhasebe.userManagement.user.dto.RegisterDifferentRoleRequest
 import com.range.muhasebe.userManagement.user.service.AuthService
-import com.range.muhasebe.userManagement.user.service.UserService
 import com.range.muhasebe.userManagement.worker.domain.model.Worker
 import com.range.muhasebe.userManagement.worker.domain.repository.WorkerRepository
 import com.range.muhasebe.userManagement.worker.exception.WorkerNotFoundException
@@ -31,7 +30,7 @@ class WorkerManagementServiceImpl
         val user = authService.registerDifferentRole(workerAddRequest.toRegisterDifferentRole())
 
         val worker = Worker(
-            id = user.id,
+            id = null,
             user = user,
             ownerId = ownerId,
             phoneNumber = workerAddRequest.phoneNumber,

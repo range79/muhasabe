@@ -20,7 +20,7 @@ class CustomUserDetailsService(
         val user =  userRepository.findById(userId).orElseThrow{
             UserNotFoundException("User with ID $userId not found")
         }
-        val worker = workerRepository.findByUserId(user.id ?: -1)
+        val worker = workerRepository.findByUserId(user.id?:-1)
 
         return CustomUserDetails(user,worker)
     }

@@ -1,6 +1,7 @@
 package com.range.muhasebe.common.security
 
 import com.range.muhasebe.common.security.jwt.JWTFilter
+import com.range.muhasebe.common.config.tenant.TenantFilter
 import com.range.muhasebe.userManagement.user.domain.model.Role
 
 import org.springframework.beans.factory.annotation.Value
@@ -12,10 +13,10 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
-class SecurityConfig(private val jwtFilter: JWTFilter) {
+class SecurityConfig(private val jwtFilter: JWTFilter,
+private val tenantFilter: TenantFilter) {
     @Value("\${api.prefix}")
-    private lateinit var prefix: String;
-
+    private lateinit var prefix: String
 
 
     @Bean
@@ -40,6 +41,7 @@ class SecurityConfig(private val jwtFilter: JWTFilter) {
 
                 authorize(anyRequest, authenticated)
             }
+            addFilterBefore<UsernamePasswordAuthenticationFilter> (tenantFilter)
             addFilterBefore<UsernamePasswordAuthenticationFilter>(jwtFilter)
 
 

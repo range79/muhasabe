@@ -20,7 +20,7 @@ class JWTBlacklistService(
                 throw TokenException(null)
             }
             if (checkToken(jwtToken)){
-              throw TokenException(null)
+              throw TokenException("Token Already blacklisted!")
             }
             val time = jwtUtil.calculateRemainingTime(jwtToken)
 

@@ -50,7 +50,7 @@ class JWTFilter(
 
             if (token != null && SecurityContextHolder.getContext().authentication == null) {
                 val id = jwtUtil.getUserId(token)
-                if (!jwtBlacklistService.checkToken(token)){
+                if (jwtBlacklistService.checkToken(token)){
                     throw TokenException(null)
                 }
                 val userDetails: UserDetails = customUserDetailsService.loadUserByUserID(id)

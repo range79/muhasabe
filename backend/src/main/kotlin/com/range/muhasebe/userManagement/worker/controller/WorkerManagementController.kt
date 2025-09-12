@@ -1,8 +1,8 @@
 package com.range.muhasebe.userManagement.worker.controller
 
-import com.range.muhasebe.userManagement.owner.dto.WorkerAddRequest
-import com.range.muhasebe.userManagement.owner.dto.WorkerDetailedResponse
-import com.range.muhasebe.userManagement.owner.dto.WorkerResponse
+import com.range.muhasebe.userManagement.user.dto.WorkerAddRequest
+import com.range.muhasebe.userManagement.user.dto.WorkerDetailedResponse
+import com.range.muhasebe.userManagement.user.dto.WorkerResponse
 import com.range.muhasebe.userManagement.worker.api.WorkerManagerApi
 import com.range.muhasebe.userManagement.worker.service.WorkerManagementService
 import org.springframework.data.domain.Page
