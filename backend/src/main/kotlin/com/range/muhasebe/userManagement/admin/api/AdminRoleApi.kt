@@ -7,12 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import java.util.UUID
 
 @RequestMapping("\${api.prefix}/admin/group")
 interface AdminRoleApi {
     @PatchMapping("/make-owner/{userId}")
-    fun makeOwner(@PathVariable userId: Long)
+    fun makeOwner(@PathVariable userId: UUID)
     @PatchMapping("/remove-owner/{userId}")
-    fun removeOwner(@PathVariable userId: Long)
+    fun removeOwner(@PathVariable userId: UUID)
 
 }

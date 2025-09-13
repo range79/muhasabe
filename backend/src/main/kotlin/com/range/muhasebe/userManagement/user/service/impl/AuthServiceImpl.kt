@@ -3,6 +3,7 @@ package com.range.muhasebe.userManagement.user.service.impl
 
 import com.eloboostum.usermanagement.user.exception.AuthenticationException
 import com.eloboostum.usermanagement.user.exception.UserNotFoundException
+import com.range.muhasebe.common.config.tenant.TenantContext
 import com.range.muhasebe.common.security.jwt.JWTUtil
 import com.range.muhasebe.userManagement.user.domain.model.Role
 import com.range.muhasebe.userManagement.user.domain.model.User
@@ -12,6 +13,7 @@ import com.range.muhasebe.userManagement.user.dto.RegisterDifferentRoleRequest
 import com.range.muhasebe.userManagement.user.dto.RegisterRequest
 import com.range.muhasebe.userManagement.user.service.AuthService
 import com.range.muhasebe.userManagement.user.service.helper.AuthServiceHelper
+import org.slf4j.LoggerFactory
 
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -24,10 +26,10 @@ class AuthServiceImpl (
     private val jwtUtil: JWTUtil,
     private val authServiceHelper: AuthServiceHelper
 ): AuthService {
-
-    @Transactional(readOnly = true)
+private val logger = LoggerFactory.getLogger(AuthServiceImpl::class.java)
+    @Transactional
     override fun login(loginRequest: LoginRequest): String {
-
+logger.error(TenantContext.getTenant())
         val user =userRepository.findByUsername(loginRequest.username)
 
         if(!passwordEncoder.matches(loginRequest.password,user.password))
@@ -40,16 +42,12 @@ class AuthServiceImpl (
     }
     @Transactional
     override fun register(registerRequest: RegisterRequest): String {
+
+
         val  user =userRepository.save(registerMapper(registerRequest))
         return jwtUtil.generateToken(user.id,user.role)
     }
 
-    @Transactional
-    override fun registerDifferentRole(registerDifferentRoleRequest: RegisterDifferentRoleRequest) : User{
-        return userRepository.save(
-            differentRoleRegister(registerDifferentRoleRequest)
-        )
-    }
 
     override fun forgotPassword(token: String, password: String) {
         val mail = authServiceHelper.getEmailAndConsumeToken(token)
@@ -77,22 +75,11 @@ class AuthServiceImpl (
             deleted = false,
             firstName = registerRequest.firstname,
             lastName = registerRequest.lastname,
-            tenantId = null
+            workerPermissions = null,
+            phoneNUmber = null,
+            startDate = null
         )
     }
-    fun differentRoleRegister(r: RegisterDifferentRoleRequest) : User{
-        return User(
-            id = null,
-            email = r.email,
-            password = passwordEncoder.encode(r.password),
-            username = r.username,
-            role = r.role,
-            deleted = false,
-            firstName = r.firstname,
-            lastName = r.lastname,
-            tenantId = null
 
-        )
-    }
 
 }

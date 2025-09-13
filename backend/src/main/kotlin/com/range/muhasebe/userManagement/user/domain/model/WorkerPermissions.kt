@@ -1,4 +1,4 @@
-package com.range.muhasebe.userManagement.worker.domain.model
+package com.range.muhasebe.userManagement.user.domain.model
 
 enum class WorkerPermissions {
     CHANGE_CATEGORY,

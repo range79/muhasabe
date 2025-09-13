@@ -1,4 +1,4 @@
-package com.range.muhasebe.userManagement.user.dto
+package com.range.muhasebe.userManagement.worker.dto
 
 import java.time.LocalDateTime
 

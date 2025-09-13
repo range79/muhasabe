@@ -1,9 +1,10 @@
-package com.range.muhasebe.userManagement.user.dto
+package com.range.muhasebe.userManagement.worker.dto
 
 import java.time.LocalDateTime
+import java.util.UUID
 
 data class WorkerDetailedResponse (
-    var id: Long?,
+    var id: UUID?,
     var username: String,
     var firstName: String,
     var lastName: String,

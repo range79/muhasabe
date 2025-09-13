@@ -1,8 +1,8 @@
 package com.range.muhasebe.userManagement.worker.api
 
-import com.range.muhasebe.userManagement.user.dto.WorkerAddRequest
-import com.range.muhasebe.userManagement.user.dto.WorkerDetailedResponse
-import com.range.muhasebe.userManagement.user.dto.WorkerResponse
+import com.range.muhasebe.userManagement.worker.dto.WorkerAddRequest
+import com.range.muhasebe.userManagement.worker.dto.WorkerDetailedResponse
+import com.range.muhasebe.userManagement.worker.dto.WorkerResponse
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody
 
 
 import org.springframework.web.bind.annotation.RequestMapping
+import java.util.UUID
 
 @RequestMapping("\${api.prefix}/workers/management")
 interface WorkerManagerApi {
@@ -24,7 +25,7 @@ interface WorkerManagerApi {
 
 
     @DeleteMapping("/{workerId}")
-    fun deleteWorker(@PathVariable workerId: Long)
+    fun deleteWorker(@PathVariable workerId: UUID)
 
 
     @GetMapping
@@ -32,11 +33,11 @@ interface WorkerManagerApi {
 
 
     @PatchMapping("/{workerId}/restore")
-    fun restoreWorker(@PathVariable workerId: Long)
+    fun restoreWorker(@PathVariable workerId: UUID)
 
 
     @GetMapping("/deleted/{workerId}")
-    fun getDeletedWorkerDetailed(@PathVariable workerId: Long): WorkerDetailedResponse
+    fun getDeletedWorkerDetailed(@PathVariable workerId: UUID): WorkerDetailedResponse
 
     @GetMapping("/deleted")
     fun getDeletedWorkers(pageable: Pageable): Page<WorkerResponse>

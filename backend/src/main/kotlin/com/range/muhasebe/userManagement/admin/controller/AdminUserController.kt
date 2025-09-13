@@ -6,15 +6,16 @@ import com.range.muhasebe.userManagement.user.dto.UserResponse
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.RestController
+import java.util.UUID
 
 @RestController
 class AdminUserController(
     private val service: AdminUserService
 ): AdminUserApi {
-    override fun deleteUser(userID: Long) {
+    override fun deleteUser(userID: UUID) {
         return service.deleteUser(userID)
     }
-    override fun deleteUserPermanently(userId: Long) {
+    override fun deleteUserPermanently(userId: UUID) {
         return service.deleteUserPermanently(userId)
     }
 
@@ -23,7 +24,7 @@ class AdminUserController(
     }
 
 
-    override fun restoreUser(userId: Long) {
+    override fun restoreUser(userId: UUID) {
         return service.restoreUser(userId)
     }
 }

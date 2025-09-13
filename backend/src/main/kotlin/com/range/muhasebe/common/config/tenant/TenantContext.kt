@@ -6,7 +6,7 @@ import org.hibernate.context.spi.CurrentTenantIdentifierResolver
 object TenantContext {
     private val currentTenant = ThreadLocal<String>()
 
-    fun setTenant(tenantId: String) {
+    fun setTenant(tenantId: String?) {
         currentTenant.set(tenantId)
     }
 

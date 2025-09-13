@@ -15,19 +15,20 @@ import org.springframework.security.access.prepost.PreAuthorize
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
 
 @Service
 class AdminUserServiceImpl (
     private val userRepository: UserRepository
 ): AdminUserService {
     @Transactional
-    override fun deleteUser(userID: Long) {
+    override fun deleteUser(userID: UUID) {
         val user = findUser(userID)
         user.deleted=true
         userRepository.save(user)
     }
     @PreAuthorize("hasRole('ADMIN')")
-    override fun deleteUserPermanently(userId: Long) {
+    override fun deleteUserPermanently(userId: UUID) {
         return userRepository.deleteById(userId)
     }
 
@@ -36,13 +37,13 @@ class AdminUserServiceImpl (
             .map { user-> UserResponse(user.id,user.username,user.role) }
     }
 
-    override fun restoreUser(userID: Long) {
+    override fun restoreUser(userID: UUID) {
         val user = userRepository.findDeletedUserById(userID)
             .orElseThrow{UserNotFoundException("Deleted User not Found")}
        user.deleted= false
         userRepository.save(user)
     }
-    private fun findUser(userId: Long): User {
+    private fun findUser(userId: UUID): User {
         return userRepository.findById(userId).orElseThrow{
             UserNotFoundException("User not Found ")
         }

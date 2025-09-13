@@ -20,6 +20,6 @@ class CategoryController(
     }
 
     override fun findMyOwnCategories(pageable: Pageable): Page<Category> {
-        return categoryService.findMyOwnCategories(pageable)
+        return categoryService.findCategories(pageable)
     }
 }

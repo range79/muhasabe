@@ -15,7 +15,7 @@ class TenantFilter : OncePerRequestFilter() {
     ) {
         try {
             val host = request.serverName // example: user1.localhost
-            val tenant = host.split(".")[0] // user1
+            val tenant = if (host.contains(".")) host.split(".")[0] else "public" // user1
 
             TenantContext.setTenant(tenant)
             filterChain.doFilter(request, response)

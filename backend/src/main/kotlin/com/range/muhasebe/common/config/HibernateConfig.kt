@@ -25,11 +25,21 @@ class HibernateConfig(
 
         val properties = HashMap<String, Any>()
         properties["hibernate.multiTenancy"] = "SCHEMA"
-        properties["hibernate.multi_tenant_connection_provider"] = SchemaMultiTenantConnectionProvider(dataSource)
-        properties["hibernate.tenant_identifier_resolver"] = CurrentTenantIdentifierResolverImpl()
+        properties["hibernate.multi_tenant_connection_provider"] = schemaMultiTenantConnectionProvider()
+        properties["hibernate.tenant_identifier_resolver"] = currentTenantIdentifierResolver()
         properties["hibernate.hbm2ddl.auto"] = "update"
         emf.setJpaPropertyMap(properties)
 
         return emf
     }
+    @Bean
+    fun schemaMultiTenantConnectionProvider(): SchemaMultiTenantConnectionProvider {
+        return SchemaMultiTenantConnectionProvider(dataSource)
+    }
+
+    @Bean
+    fun currentTenantIdentifierResolver(): CurrentTenantIdentifierResolverImpl {
+        return CurrentTenantIdentifierResolverImpl()
+    }
+
 }

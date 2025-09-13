@@ -2,16 +2,16 @@ package com.range.muhasebe.common.security.details
 
 
 import com.range.muhasebe.userManagement.user.domain.model.User
-import com.range.muhasebe.userManagement.worker.domain.model.Worker
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.util.UUID
 
 class CustomUserDetails(private val user: User,
-    private val worker: Worker?) : UserDetails {
+   ) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority?> {
         val authorities = mutableListOf<GrantedAuthority>()
         authorities.add(user.role)
-        worker?.permissions?.let { perm ->
+        user.workerPermissions?.let { perm ->
             authorities.add(GrantedAuthority { "PERM_${perm.name}" })
         }
         return authorities
@@ -42,7 +42,7 @@ class CustomUserDetails(private val user: User,
     override fun isEnabled(): Boolean {
         return true
     }
-    fun getId(): Long {
+    fun getId(): UUID {
         return user.id!!
     }
 }

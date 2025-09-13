@@ -41,8 +41,8 @@ private val tenantFilter: TenantFilter) {
 
                 authorize(anyRequest, authenticated)
             }
-            addFilterBefore<UsernamePasswordAuthenticationFilter> (tenantFilter)
-            addFilterBefore<UsernamePasswordAuthenticationFilter>(jwtFilter)
+            http.addFilterBefore(tenantFilter, UsernamePasswordAuthenticationFilter::class.java)
+            http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
 
 
         }

@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
 
 
@@ -15,7 +16,8 @@ import jakarta.persistence.Table
 @Table(name = "product_variant")
 data class ProductVariant(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_variant_seq")
+    @SequenceGenerator(name = "product_variant_seq", sequenceName = "product_variant_seq", allocationSize = 1)
     val id: Long? = null,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -25,11 +27,5 @@ data class ProductVariant(
     var name: String, // örn: "512GB"
     var price: Int,
     var quantity: Int
-){
-    fun ProductVariant.toResponse() = ProductVariantResponse(
-        id = id!!,
-        name = name,
-        price = price,
-        quantity = quantity
-    )
-}
+
+)

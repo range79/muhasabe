@@ -20,7 +20,7 @@ class JWTUtil {
 
     @Value("\${jwt.duration}")
     private lateinit var duration: String
-    fun generateToken(id: Long?, role: Role?): String {
+    fun generateToken(id: UUID?, role: Role?): String {
         return Jwts
             .builder().subject(id.toString())
             .claim("role", role?.authority ?: Role.ROLE_USER).signWith(getSecretKey())
@@ -46,17 +46,17 @@ class JWTUtil {
             .getPayload()
     }
 
-    fun getUserId(token: String?): Long {
+    fun getUserId(token: String?): UUID {
         val claims = parseToken(token)
-        return claims.subject.toLong()
+        return UUID.fromString(claims.subject)
     }
 
     fun validateToken(token: String?, userDetails: UserDetails): Boolean {
         val claim = parseToken(token)
-        val id = claim.subject.toLong()
+        val id =UUID.fromString(claim.subject)
         val expiration = claim.expiration
 
-        return id == (userDetails as CustomUserDetails).getId() && !expiration.before(Date(System.currentTimeMillis()))
+        return id.equals((userDetails as CustomUserDetails).getId()) && !expiration.before(Date(System.currentTimeMillis()))
     }
     fun validateToken(token: String): Boolean {
         val claim = parseToken(token)
