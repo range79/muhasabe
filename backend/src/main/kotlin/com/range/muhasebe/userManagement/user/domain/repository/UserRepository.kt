@@ -41,5 +41,4 @@ interface  UserRepository : JpaRepository<User, UUID>{
     fun existsByEmail(email: String): Boolean
     fun findByEmail(email: String): Optional<User>
     fun findAllByRole(pageable: Pageable,role: Role): Page<User>
-
 }

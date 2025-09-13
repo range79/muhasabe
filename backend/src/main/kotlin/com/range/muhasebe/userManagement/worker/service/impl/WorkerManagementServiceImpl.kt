@@ -1,22 +1,19 @@
 package com.range.muhasebe.userManagement.worker.service.impl
 
 import com.range.muhasebe.common.exception.RoleMismatchException
-import com.range.muhasebe.common.util.SecurityContextUtil
-import com.range.muhasebe.userManagement.worker.dto.WorkerAddRequest
-import com.range.muhasebe.userManagement.worker.dto.WorkerDetailedResponse
-import com.range.muhasebe.userManagement.worker.dto.WorkerResponse
 import com.range.muhasebe.userManagement.user.domain.model.Role
 import com.range.muhasebe.userManagement.user.domain.model.User
 import com.range.muhasebe.userManagement.user.dto.RegisterDifferentRoleRequest
 import com.range.muhasebe.userManagement.user.service.UserService
-import com.range.muhasebe.userManagement.worker.exception.WorkerNotFoundException
+import com.range.muhasebe.userManagement.worker.dto.WorkerAddRequest
+import com.range.muhasebe.userManagement.worker.dto.WorkerDetailedResponse
+import com.range.muhasebe.userManagement.worker.dto.WorkerResponse
 import com.range.muhasebe.userManagement.worker.service.WorkerManagementService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
+import java.util.*
 
 @Service
 class WorkerManagementServiceImpl
@@ -28,7 +25,7 @@ class WorkerManagementServiceImpl
 ): WorkerManagementService {
     @Transactional
     override fun createWorker(workerAddRequest: WorkerAddRequest) {
- userService.registerDifferentRole(workerAddRequest.toRegisterDifferentRole())
+        userService.registerDifferentRole(workerAddRequest.toRegisterDifferentRole())
 
     }
 
@@ -47,7 +44,7 @@ class WorkerManagementServiceImpl
     override fun deleteWorker(workerId: UUID) {
         val user =userService.getDeletedUserById(workerId)
         if(user.role!=Role.ROLE_WORKER){
-            throw RoleMismatchException("User is not worker ${workerId}")
+            throw RoleMismatchException("User is not worker $workerId")
         }
         user.delete()
         userService.updateUser(user)
@@ -58,7 +55,7 @@ class WorkerManagementServiceImpl
 
         val user =userService.getDeletedUserById(workerId)
         if(user.role!=Role.ROLE_WORKER){
-            throw RoleMismatchException("User is not worker ${workerId}")
+            throw RoleMismatchException("User is not worker $workerId")
         }
         user.delete()
         userService.updateUser(user)
@@ -94,7 +91,7 @@ class WorkerManagementServiceImpl
         return RegisterDifferentRoleRequest(
             firstname = this.firstName,
             lastname = this.lastName,
-            username = this.email,
+            username = this.username,
             password = this.password,
             email = this.email,
             role = Role.ROLE_WORKER

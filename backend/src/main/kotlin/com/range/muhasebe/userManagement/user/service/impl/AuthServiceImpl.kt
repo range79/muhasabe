@@ -26,10 +26,8 @@ class AuthServiceImpl (
     private val jwtUtil: JWTUtil,
     private val authServiceHelper: AuthServiceHelper
 ): AuthService {
-private val logger = LoggerFactory.getLogger(AuthServiceImpl::class.java)
     @Transactional
     override fun login(loginRequest: LoginRequest): String {
-logger.error(TenantContext.getTenant())
         val user =userRepository.findByUsername(loginRequest.username)
 
         if(!passwordEncoder.matches(loginRequest.password,user.password))

@@ -32,8 +32,8 @@ class AuthServiceHelper(
         val resetUrl = "$appUrl$prefix/auth/reset-Password?token=$token"
 
         val message = SimpleMailMessage().apply {
-            setFrom("Muhasebe <noreply.eloboostum@gmail.com>")
-            setTo(email)
+            from = "Muhasebe <noreply.eloboostum@gmail.com>"
+            to(email)
             subject = "Password Reset Request"
             text = buildString {
                 appendLine("Hello,")

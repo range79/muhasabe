@@ -24,6 +24,7 @@ data class User(
     @Enumerated(EnumType.STRING)
     var role : Role,
     var deleted: Boolean = false,
+    @Enumerated(EnumType.STRING)
     var workerPermissions: WorkerPermissions?,
     var phoneNUmber : String? = null,
     val startDate : LocalDateTime?,

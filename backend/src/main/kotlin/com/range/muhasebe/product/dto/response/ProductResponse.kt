@@ -1,8 +1,10 @@
 package com.range.muhasebe.product.dto.response
 
+import java.util.UUID
+
 
 data class ProductResponse(
-    val id: Long,
+    val id: UUID,
     val name: String,
     val description: String,
     val categoryId: Long,

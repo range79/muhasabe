@@ -27,4 +27,8 @@ class AdminUserController(
     override fun restoreUser(userId: UUID) {
         return service.restoreUser(userId)
     }
+
+    override fun getAllUsers(pageable: Pageable): Page<UserResponse> {
+        return service.listAllUsers(pageable)
+    }
 }

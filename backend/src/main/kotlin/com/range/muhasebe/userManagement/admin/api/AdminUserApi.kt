@@ -20,5 +20,6 @@ interface AdminUserApi {
     fun getDeletedUsers(pageable: Pageable): Page<UserResponse>
     @GetMapping("/restore/{userId}")
     fun restoreUser( @PathVariable userId: UUID)
-
+    @GetMapping("getusers/all")
+    fun getAllUsers(pageable: Pageable): Page<UserResponse>
 }

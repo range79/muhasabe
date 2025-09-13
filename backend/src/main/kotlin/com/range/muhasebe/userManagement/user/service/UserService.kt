@@ -18,4 +18,5 @@ interface UserService {
     fun updateUser(user: User): User
     fun getDeletedUsersByRole(pageable: Pageable,role: Role): Page<User>
     fun getDeletedUserById(userId: UUID): User
+    fun getUsersByRole(pageable: Pageable,role: Role): Page<User>
 }

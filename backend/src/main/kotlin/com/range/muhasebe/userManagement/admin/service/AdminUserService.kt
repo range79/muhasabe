@@ -1,6 +1,7 @@
 package com.eloboostum.usermanagement.admin.service
 
 
+import com.range.muhasebe.userManagement.user.domain.model.User
 import com.range.muhasebe.userManagement.user.dto.UserResponse
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -11,5 +12,7 @@ interface AdminUserService {
     fun deleteUserPermanently(userId: UUID)
     fun getDeletedUsers(pageable: Pageable): Page<UserResponse>
     fun restoreUser(userID: UUID)
+    fun listAllUsers(pageable: Pageable): Page<UserResponse>
+
 
 }

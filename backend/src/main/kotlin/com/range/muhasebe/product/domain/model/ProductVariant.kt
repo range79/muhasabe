@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
+import java.util.UUID
 
 
 @Entity
@@ -18,7 +19,7 @@ data class ProductVariant(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_variant_seq")
     @SequenceGenerator(name = "product_variant_seq", sequenceName = "product_variant_seq", allocationSize = 1)
-    val id: Long? = null,
+    val id: UUID? = null,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id")

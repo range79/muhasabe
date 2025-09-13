@@ -32,7 +32,7 @@ class UserServiceImpl(
 
     @Transactional
     override fun registerDifferentRole(registerDifferentRoleRequest: RegisterDifferentRoleRequest) : User{
-        return userRepository.saveAndFlush(
+        return userRepository.save(
             differentRoleRegister(registerDifferentRoleRequest)
         )
     }
@@ -40,30 +40,31 @@ class UserServiceImpl(
     override fun getUserByRole(pageable: Pageable,role: Role): Page<User>  {
         return userRepository.findAllByRole(pageable=pageable,role =role)
     }
-
+    @Transactional
     override fun updateUser(user: User): User {
         return userRepository.save(user)
     }
-
+    @Transactional(readOnly = true)
     override fun getDeletedUsersByRole(pageable: Pageable,role: Role): Page<User> {
         val tenant =TenantContext.getTenant()
         return userRepository.findDeletedUsersByRole(pageable= pageable,role=role,tenant=tenant)
     }
-
+    @Transactional(readOnly = true)
     override fun getDeletedUserById(userId: UUID): User {
         return userRepository.findDeletedUserById(userId).orElseThrow {
             UserNotFoundException("User Not Found")
         }
     }
+    @Transactional(readOnly = true)
+    override fun getUsersByRole(pageable: Pageable,role: Role): Page<User> {
+        return userRepository.findAllByRole(pageable=pageable,role=role)
+    }
 
-
+    @Transactional(readOnly = true)
     override fun getAllUsers(pageable: Pageable): Page<UserResponse> {
         return userRepository.findAll(pageable)
             .map {user-> userToUserResponse(user)}
     }
-
-
-
 
     fun userToUserResponse(user: User): UserResponse{
         return UserResponse(
@@ -86,8 +87,6 @@ class UserServiceImpl(
             workerPermissions = null,
             phoneNUmber = null,
             startDate = LocalDateTime.now(),
-
-
         )
     }
 }
