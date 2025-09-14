@@ -7,5 +7,5 @@ data class ProductRequest(
     val name: String,
     val description: String,
     val categoryId: UUID,
-    val variants: List<ProductVariantRequest> = listOf()
+    val variants: MutableList<ProductVariantRequest> = mutableListOf()
 )

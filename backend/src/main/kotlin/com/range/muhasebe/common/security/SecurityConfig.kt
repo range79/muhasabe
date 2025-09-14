@@ -1,12 +1,13 @@
 package com.range.muhasebe.common.security
 
-import com.range.muhasebe.common.security.jwt.JWTFilter
 import com.range.muhasebe.common.config.tenant.TenantFilter
+import com.range.muhasebe.common.security.jwt.JWTFilter
 import com.range.muhasebe.userManagement.user.domain.model.Role
-
+import com.range.muhasebe.userManagement.user.domain.model.WorkerPermissions
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.web.SecurityFilterChain
@@ -14,7 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 class SecurityConfig(private val jwtFilter: JWTFilter,
-private val tenantFilter: TenantFilter) {
+                     private val tenantFilter: TenantFilter) {
     @Value("\${api.prefix}")
     private lateinit var prefix: String
 
@@ -36,8 +37,30 @@ private val tenantFilter: TenantFilter) {
 
 
                 authorize ("$prefix/admin/user/**",hasAuthority(Role.ROLE_ADMIN.authority))
-                authorize ( "${prefix}/admin/group",hasAuthority(Role.ROLE_ADMIN.authority) )
+                authorize ( "${prefix}/admin/group/**",hasAuthority(Role.ROLE_ADMIN.authority) )
+
                 authorize("$prefix/workers/management",hasAuthority(Role.ROLE_OWNER.authority))
+
+                //add
+                authorize (HttpMethod.POST,"${prefix}/categories",hasAnyAuthority( Role.ROLE_OWNER.authority, WorkerPermissions.ADD_CATEGORY.permissionname()))
+                authorize(HttpMethod.POST,"${prefix}/products",hasAnyAuthority( Role.ROLE_OWNER.authority,WorkerPermissions.ADD_PRODUCT.permissionname()))
+
+
+
+
+                //GET
+                authorize (HttpMethod.GET,"${prefix}/categories",hasAnyAuthority( Role.ROLE_OWNER.authority, WorkerPermissions.GET_CATEGORY.permissionname()))
+                authorize(HttpMethod.GET,"${prefix}/products/**",hasAnyAuthority( Role.ROLE_OWNER.authority))
+
+
+                //patch
+                authorize(HttpMethod.PATCH,"${prefix}/products/**",hasAnyAuthority( Role.ROLE_OWNER.authority,WorkerPermissions.UPDATE_PRODUCT.permissionname()))
+
+                //delete
+                authorize (HttpMethod.DELETE,"${prefix}/products/**",hasAnyAuthority(Role.ROLE_OWNER.authority,
+                    WorkerPermissions.REMOVE_PRODUCT.permissionname()))
+
+
 
                 authorize(anyRequest, authenticated)
             }

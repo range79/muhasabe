@@ -1,13 +1,19 @@
 package com.range.muhasebe.userManagement.user.domain.model
 
 enum class WorkerPermissions {
-    CHANGE_CATEGORY,
-    REMOVE_CATEGORY,
+    //CATEGORY
+    GET_CATEGORY,
+    ADD_CATEGORY,
     UPDATE_CATEGORY,
-    ADD_MODEL,
-    REMOVE_MODEL,
-    UPDATE_MODEL,
-    ADD_VARIANT,
-    REMOVE_VARIANT,
-    UPDATE_VARIANT,
+    REMOVE_CATEGORY,
+    //product
+    GET_PRODUCT,
+    REMOVE_PRODUCT,
+    UPDATE_PRODUCT,
+    ADD_PRODUCT;
+    //USER MANAGEMENT
+
+    fun permissionname(): String{
+        return "PERM_${name}"
+    }
 }
