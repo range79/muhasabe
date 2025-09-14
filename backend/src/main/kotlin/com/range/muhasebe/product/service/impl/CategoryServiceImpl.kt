@@ -10,13 +10,14 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
 
 @Service
 class CategoryServiceImpl
     (
     private val categoryRepository: CategoryRepository,
 
-): CategoryService {
+    ): CategoryService {
     @Transactional
     override fun addCategory(name: String) {
         val category = Category(
@@ -26,7 +27,7 @@ class CategoryServiceImpl
         categoryRepository.save(category)
     }
     @Transactional
-    override fun removeCategory(id: Long) {
+    override fun removeCategory(id: UUID) {
         val category = findCategory(id)
         categoryRepository.delete(category)
     }
@@ -34,10 +35,15 @@ class CategoryServiceImpl
     override fun findCategories(pageable: Pageable): Page<Category> {
         return categoryRepository.findAll(pageable)
     }
+    @Transactional
+    override fun updateCategory(id: UUID, name: String) {
+        val category = findCategory(id)
+        category.name = name
+        categoryRepository.save(category)
+    }
 
 
-
-    private fun findCategory(id: Long): Category {
+    override fun findCategory(id: UUID): Category {
         return categoryRepository.findById(id).orElseThrow{CategoryNotFoundException()}
     }
 

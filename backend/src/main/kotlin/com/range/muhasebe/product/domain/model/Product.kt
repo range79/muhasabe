@@ -1,6 +1,6 @@
 package com.range.muhasebe.product.domain.model
 
-import com.range.muhasebe.product.dto.response.ProductResponse
+import com.range.muhasebe.product.dto.request.ProductVariantRequest
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -27,5 +27,5 @@ data class Product (
     var category: Category,
     var description: String,
     @OneToMany(mappedBy = "product", cascade = [CascadeType.ALL], orphanRemoval = true)
-    var variants: MutableList<ProductVariant> = mutableListOf()
+    var variants: List<ProductVariantRequest> = mutableListOf()
 )
