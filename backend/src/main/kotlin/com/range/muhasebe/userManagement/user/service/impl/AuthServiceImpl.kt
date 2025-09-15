@@ -3,17 +3,14 @@ package com.range.muhasebe.userManagement.user.service.impl
 
 import com.eloboostum.usermanagement.user.exception.AuthenticationException
 import com.eloboostum.usermanagement.user.exception.UserNotFoundException
-import com.range.muhasebe.common.config.tenant.TenantContext
 import com.range.muhasebe.common.security.jwt.JWTUtil
 import com.range.muhasebe.userManagement.user.domain.model.Role
 import com.range.muhasebe.userManagement.user.domain.model.User
 import com.range.muhasebe.userManagement.user.domain.repository.UserRepository
 import com.range.muhasebe.userManagement.user.dto.LoginRequest
-import com.range.muhasebe.userManagement.user.dto.RegisterDifferentRoleRequest
 import com.range.muhasebe.userManagement.user.dto.RegisterRequest
 import com.range.muhasebe.userManagement.user.service.AuthService
 import com.range.muhasebe.userManagement.user.service.helper.AuthServiceHelper
-import org.slf4j.LoggerFactory
 
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -59,7 +56,11 @@ class AuthServiceImpl (
         if (!userRepository.existsByEmail(email)) {
             throw UserNotFoundException("User with email $email does not exist")
         }
-        return authServiceHelper.sendMail(email)
+        return authServiceHelper.passwordResetRequest(email)
+    }
+
+    override fun twoFactorAuthentication(userId: String): String {
+        TODO()
     }
 
 
@@ -75,7 +76,8 @@ class AuthServiceImpl (
             lastName = registerRequest.lastname,
             workerPermissions = null,
             phoneNUmber = null,
-            startDate = null
+            startDate = null,
+            twoFactorenabled = false,
         )
     }
 

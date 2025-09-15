@@ -1,5 +1,6 @@
 package com.range.muhasebe.product.domain.model
 
+import com.github.f4b6a3.uuid.UuidCreator
 import jakarta.persistence.*
 import java.util.*
 
@@ -7,8 +8,7 @@ import java.util.*
 @Table(name = "product")
 data class Product (
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    val id: UUID? = null,
+    var id: UUID? = null,
     var name: String,
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id")
@@ -16,4 +16,11 @@ data class Product (
     var description: String,
     @OneToMany(mappedBy = "product", cascade = [CascadeType.ALL], orphanRemoval = true)
     var variants: MutableList<ProductVariant> = mutableListOf()
-)
+){
+    @PrePersist
+    fun prePersist() {
+        if (id == null) {
+            id = UuidCreator.getTimeOrdered()
+        }
+    }
+}

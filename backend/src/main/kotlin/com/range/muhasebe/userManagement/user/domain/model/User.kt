@@ -1,5 +1,6 @@
 package com.range.muhasebe.userManagement.user.domain.model
 
+import com.github.f4b6a3.uuid.UuidCreator
 import jakarta.persistence.*
 import jakarta.validation.constraints.Email
 import org.hibernate.annotations.SQLRestriction
@@ -11,7 +12,6 @@ import java.util.UUID
 @SQLRestriction("deleted = false")
 data class User(
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     var id : UUID? = null,
     @Column(unique = true, nullable = false)
     val username : String,
@@ -28,8 +28,15 @@ data class User(
     var workerPermissions: WorkerPermissions?,
     var phoneNUmber : String? = null,
     val startDate : LocalDateTime?,
+    var twoFactorenabled : Boolean = false,
 )
 {
+    @PrePersist
+    fun prePersist() {
+        if (id == null) {
+            id = UuidCreator.getTimeOrdered()
+        }
+    }
     fun delete() {
         deleted = true
     }

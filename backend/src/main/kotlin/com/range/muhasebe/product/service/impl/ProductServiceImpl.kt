@@ -54,6 +54,7 @@ class ProductServiceImpl(
                 name = variantReq.name,
                 price = variantReq.price,
                 quantity = variantReq.quantity,
+                barcode = variantReq.barcode,
                 product = product
             )
 

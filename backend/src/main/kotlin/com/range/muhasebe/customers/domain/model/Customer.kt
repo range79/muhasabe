@@ -1,4 +1,4 @@
-package com.range.muhasebe.product.domain.model
+package com.range.muhasebe.customers.domain.model
 
 import com.github.f4b6a3.uuid.UuidCreator
 import jakarta.persistence.Entity
@@ -6,15 +6,17 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.PrePersist
-import jakarta.persistence.SequenceGenerator
+import jakarta.persistence.Table
 import java.util.UUID
 
 @Entity
-data class Category (
-
+@Table(name = "customers")
+data class Customer (
     @Id
     var id: UUID? = null,
-    var name: String,
+    val username: String,
+    val phoneNumber: String,
+    val address: String
 ){
     @PrePersist
     fun prePersist() {

@@ -16,11 +16,7 @@ data class Order(
     val price: BigDecimal,
     val quantity: Int,
     val totalPrice: Int,
-    val isPaid: Boolean,
-    val isCompleted: Boolean,
-    val isCancelled: Boolean,
+    val status: OrderStatus,
     val createdAt: LocalDateTime=LocalDateTime.now(),
     val updatedAt: LocalDateTime=LocalDateTime.now()
-){
-
-}
+)
