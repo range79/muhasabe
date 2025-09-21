@@ -1,4 +1,9 @@
 package com.range.muhasebe.order.dto
 
-class OrderRequest {
-}
+import java.util.UUID
+
+data class OrderRequest (
+     val customerId: UUID,
+     val productVariantId: UUID,
+    val quantity: Int,
+)

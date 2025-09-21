@@ -1,5 +1,6 @@
 package com.range.muhasebe.userManagement.worker.service
 
+import com.range.muhasebe.userManagement.user.domain.model.WorkerPermissions
 import com.range.muhasebe.userManagement.worker.dto.WorkerAddRequest
 import com.range.muhasebe.userManagement.worker.dto.WorkerDetailedResponse
 import com.range.muhasebe.userManagement.worker.dto.WorkerResponse
@@ -14,4 +15,5 @@ interface WorkerManagementService {
     fun restoreWorker(workerId: UUID)
     fun getDeletedWorkerDetailed(workerId: UUID): WorkerDetailedResponse
     fun getDeletedWorkers(pageable: Pageable): Page<WorkerResponse>
+    fun givePermissionsToWorker(userId: UUID, moderatorPermissions: List<WorkerPermissions>)
 }

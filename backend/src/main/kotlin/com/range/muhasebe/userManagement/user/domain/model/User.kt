@@ -25,7 +25,7 @@ data class User(
     var role : Role,
     var deleted: Boolean = false,
     @Enumerated(EnumType.STRING)
-    var workerPermissions: WorkerPermissions?,
+    var workerPermissions: MutableList<WorkerPermissions> = mutableListOf(),
     var phoneNUmber : String? = null,
     val startDate : LocalDateTime?,
     var twoFactorenabled : Boolean = false,

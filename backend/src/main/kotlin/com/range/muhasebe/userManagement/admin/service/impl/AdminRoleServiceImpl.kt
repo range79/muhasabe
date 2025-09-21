@@ -4,8 +4,10 @@ package com.range.muhasebe.userManagement.admin.service.impl
 
 import com.eloboostum.usermanagement.admin.service.AdminRoleService
 import com.eloboostum.usermanagement.user.exception.UserNotFoundException
+import com.range.muhasebe.common.exception.RoleMismatchException
 import com.range.muhasebe.userManagement.user.domain.model.Role
 import com.range.muhasebe.userManagement.user.domain.model.User
+import com.range.muhasebe.userManagement.user.domain.model.WorkerPermissions
 import com.range.muhasebe.userManagement.user.domain.repository.UserRepository
 import jakarta.persistence.LockModeType
 import org.slf4j.LoggerFactory
@@ -44,6 +46,7 @@ class AdminRoleServiceImpl(
         val user =changeRole(userId, Role.ROLE_USER, Role.ROLE_OWNER)
         userRepository.save(user)
     }
+
 
     private fun changeRole(userId: UUID, role: Role, currentRole: Role): User {
         val user = findUser(userId)

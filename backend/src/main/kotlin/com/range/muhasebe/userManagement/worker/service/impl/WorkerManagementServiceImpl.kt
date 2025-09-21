@@ -3,6 +3,7 @@ package com.range.muhasebe.userManagement.worker.service.impl
 import com.range.muhasebe.common.exception.RoleMismatchException
 import com.range.muhasebe.userManagement.user.domain.model.Role
 import com.range.muhasebe.userManagement.user.domain.model.User
+import com.range.muhasebe.userManagement.user.domain.model.WorkerPermissions
 import com.range.muhasebe.userManagement.user.dto.RegisterDifferentRoleRequest
 import com.range.muhasebe.userManagement.user.service.UserService
 import com.range.muhasebe.userManagement.worker.dto.WorkerAddRequest
@@ -20,9 +21,25 @@ class WorkerManagementServiceImpl
     (
 
 
+
     private val userService: UserService
 
 ): WorkerManagementService {
+
+    override fun givePermissionsToWorker(
+        userId: UUID,
+        moderatorPermissions: List<WorkerPermissions>
+    ) {
+        val user = userService.getUserById(userId)
+
+        if (user.role != Role.ROLE_WORKER) {
+            throw RoleMismatchException("User is not a Worker, cannot assign moderator permissions")
+        }
+
+        user.workerPermissions.addAll(moderatorPermissions.toSet())
+        userService.updateUser(user)
+    }
+
     @Transactional
     override fun createWorker(workerAddRequest: WorkerAddRequest) {
         userService.registerDifferentRole(workerAddRequest.toRegisterDifferentRole())

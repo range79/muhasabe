@@ -74,7 +74,7 @@ class AuthServiceImpl (
             deleted = false,
             firstName = registerRequest.firstname,
             lastName = registerRequest.lastname,
-            workerPermissions = null,
+
             phoneNUmber = null,
             startDate = null,
             twoFactorenabled = false,

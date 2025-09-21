@@ -35,6 +35,7 @@ class UserServiceImpl(
         return userRepository.save(
             differentRoleRegister(registerDifferentRoleRequest)
         )
+        
     }
 
     override fun getUserByRole(pageable: Pageable,role: Role): Page<User>  {
@@ -84,7 +85,6 @@ class UserServiceImpl(
             deleted = false,
             firstName = r.firstname,
             lastName = r.lastname,
-            workerPermissions = null,
             phoneNUmber = null,
             startDate = LocalDateTime.now(),
         )

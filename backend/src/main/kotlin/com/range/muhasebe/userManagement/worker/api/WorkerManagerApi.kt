@@ -1,5 +1,6 @@
 package com.range.muhasebe.userManagement.worker.api
 
+import com.range.muhasebe.userManagement.user.domain.model.WorkerPermissions
 import com.range.muhasebe.userManagement.worker.dto.WorkerAddRequest
 import com.range.muhasebe.userManagement.worker.dto.WorkerDetailedResponse
 import com.range.muhasebe.userManagement.worker.dto.WorkerResponse
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody
 
 import org.springframework.web.bind.annotation.RequestMapping
 import java.util.UUID
+import kotlin.enums.EnumEntries
 
 @RequestMapping("\${api.prefix}/workers/management")
 interface WorkerManagerApi {
@@ -41,4 +43,10 @@ interface WorkerManagerApi {
 
     @GetMapping("/deleted")
     fun getDeletedWorkers(pageable: Pageable): Page<WorkerResponse>
+
+    @GetMapping("/worker-permissions")
+    fun getAllRoles(): EnumEntries<WorkerPermissions>
+    @PatchMapping("/{userId}/worker-permissions")
+    fun givePermission(@PathVariable userId: UUID, @RequestBody permissionName: List<WorkerPermissions>)
+
 }
