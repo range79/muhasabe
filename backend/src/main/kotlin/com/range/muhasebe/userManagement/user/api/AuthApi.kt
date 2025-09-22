@@ -6,6 +6,7 @@ import io.github.resilience4j.ratelimiter.annotation.RateLimiter
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Email
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -21,7 +22,7 @@ interface  AuthApi
 //    fun register(@RequestBody registerRequest: RegisterRequest): ResponseEntity<Void>
     @RateLimiter(name = "login")
     @PostMapping("/login")
-    fun login(@RequestBody @Valid loginRequest: LoginRequest):String
+    fun login(@RequestBody @Valid loginRequest: LoginRequest):String?
     @PostMapping("/register")
     @RateLimiter(name = "register")
     fun register(@RequestBody @Valid registerRequest: RegisterRequest): String
@@ -31,4 +32,6 @@ interface  AuthApi
     @RateLimiter(name = "resetPassword")
     @PostMapping("/reset-Password")
     fun resetPassword(@RequestParam(name = "token") token: String, @RequestBody password: String)
-  }
+    @PostMapping("/2fa/{token}")
+    fun login2FA(@PathVariable("token") token: String): String
+}

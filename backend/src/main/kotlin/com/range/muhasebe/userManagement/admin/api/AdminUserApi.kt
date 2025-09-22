@@ -15,7 +15,7 @@ interface AdminUserApi {
     @DeleteMapping("/delete/{userID}")
     fun deleteUser(@PathVariable userID: UUID)
     @DeleteMapping("/{userId}/permanent")
-    fun deleteUserPermanently(userId: UUID)
+    fun deleteUserPermanently(@PathVariable userId: UUID)
     @GetMapping("/deleted/all")
     fun getDeletedUsers(pageable: Pageable): Page<UserResponse>
     @GetMapping("/restore/{userId}")

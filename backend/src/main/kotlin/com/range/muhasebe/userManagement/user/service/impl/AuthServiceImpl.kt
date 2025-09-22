@@ -24,12 +24,15 @@ class AuthServiceImpl (
     private val authServiceHelper: AuthServiceHelper
 ): AuthService {
     @Transactional
-    override fun login(loginRequest: LoginRequest): String {
+    override fun login(loginRequest: LoginRequest): String? {
         val user =userRepository.findByUsername(loginRequest.username)
-
         if(!passwordEncoder.matches(loginRequest.password,user.password))
         {
             throw AuthenticationException("UserName or Password Incorrect")
+        }
+        if (user.twoFactorenabled){
+            authServiceHelper.twoFactoryAuth(user.email)
+            return null
         }
 
         return jwtUtil.generateToken(user.id,user.role)
@@ -37,8 +40,6 @@ class AuthServiceImpl (
     }
     @Transactional
     override fun register(registerRequest: RegisterRequest): String {
-
-
         val  user =userRepository.save(registerMapper(registerRequest))
         return jwtUtil.generateToken(user.id,user.role)
     }
@@ -59,9 +60,17 @@ class AuthServiceImpl (
         return authServiceHelper.passwordResetRequest(email)
     }
 
-    override fun twoFactorAuthentication(userId: String): String {
-        TODO()
+    override fun twoFactorAuthentication(token: String): String {
+        val email = authServiceHelper.twoFactoryAuthChecker(token)
+            ?: throw AuthenticationException("Invalid or expired 2FA token")
+
+        val user = userRepository.findByEmail(email)
+            .orElseThrow { UserNotFoundException("User not found") }
+
+
+        return jwtUtil.generateToken(user.id, user.role)
     }
+
 
 
     fun registerMapper(registerRequest: RegisterRequest): User {

@@ -4,6 +4,7 @@ package com.range.muhasebe.userManagement.user.service
 
 import com.range.muhasebe.userManagement.user.domain.model.Role
 import com.range.muhasebe.userManagement.user.domain.model.User
+import com.range.muhasebe.userManagement.user.dto.MyInfo
 import com.range.muhasebe.userManagement.user.dto.RegisterDifferentRoleRequest
 import com.range.muhasebe.userManagement.user.dto.UserResponse
 import org.springframework.data.domain.Page
@@ -19,4 +20,5 @@ interface UserService {
     fun getDeletedUsersByRole(pageable: Pageable,role: Role): Page<User>
     fun getDeletedUserById(userId: UUID): User
     fun getUsersByRole(pageable: Pageable,role: Role): Page<User>
+    fun me(): MyInfo
 }

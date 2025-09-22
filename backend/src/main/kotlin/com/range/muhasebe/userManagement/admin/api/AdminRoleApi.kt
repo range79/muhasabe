@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import java.util.*
 import kotlin.enums.EnumEntries
 
-@RequestMapping("\${api.prefix}/admin/group")
+@RequestMapping("\${api.prefix}/admin/role")
 interface AdminRoleApi {
     @PatchMapping("/make-owner/{userId}")
     fun makeOwner(@PathVariable userId: UUID)

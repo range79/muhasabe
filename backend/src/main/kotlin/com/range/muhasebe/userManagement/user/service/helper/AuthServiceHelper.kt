@@ -26,7 +26,7 @@ class AuthServiceHelper(
     private lateinit var prefix: String;
 
     fun passwordResetRequest(email: String){
-        val token: String? = UUID.randomUUID().toString()
+        val token: String = UUID.randomUUID().toString()
         redisTemplate.opsForValue().set(
             "forgot:$token",
          email,
@@ -122,7 +122,7 @@ class AuthServiceHelper(
                 null
             }
         } catch (e: Exception) {
-            logger.error("A problem occurred while retrieving and consuming the password reset token: ${e.message}")
+            logger.error("A problem occurred while retrieving and consuming the  link: ${e.message}")
             null
         }
     }

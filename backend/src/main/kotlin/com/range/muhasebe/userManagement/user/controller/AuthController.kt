@@ -14,7 +14,7 @@ class AuthController(private val authService: AuthService): AuthApi {
 //    private var jwtDuration: Int = 0
 //    @Value("\${https.enable}")
 //    private var httpEnable: Boolean = false
-    override fun login(loginRequest: LoginRequest): String {
+    override fun login(loginRequest: LoginRequest): String? {
         return authService.login(loginRequest)
     }
 
@@ -28,6 +28,10 @@ class AuthController(private val authService: AuthService): AuthApi {
 
     override fun resetPassword(token: String, password: String) {
         return authService.forgotPassword(token,password)
+    }
+
+    override fun login2FA(token: String) : String{
+        return authService.twoFactorAuthentication(token)
     }
 
 

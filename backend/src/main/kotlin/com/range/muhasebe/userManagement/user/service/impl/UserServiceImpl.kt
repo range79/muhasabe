@@ -3,9 +3,11 @@ package com.range.muhasebe.userManagement.user.service.impl
 
 import com.eloboostum.usermanagement.user.exception.UserNotFoundException
 import com.range.muhasebe.common.config.tenant.TenantContext
+import com.range.muhasebe.common.util.SecurityContextUtil
 import com.range.muhasebe.userManagement.user.domain.model.Role
 import com.range.muhasebe.userManagement.user.domain.model.User
 import com.range.muhasebe.userManagement.user.domain.repository.UserRepository
+import com.range.muhasebe.userManagement.user.dto.MyInfo
 import com.range.muhasebe.userManagement.user.dto.RegisterDifferentRoleRequest
 import com.range.muhasebe.userManagement.user.dto.UserResponse
 import com.range.muhasebe.userManagement.user.service.UserService
@@ -21,6 +23,7 @@ import java.util.UUID
 class UserServiceImpl(
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
+    private val securityContextUtil: SecurityContextUtil,
 ): UserService {
     override fun getUserById(userId: UUID): User {
         val user = userRepository.findById(userId).orElseThrow{
@@ -59,6 +62,23 @@ class UserServiceImpl(
     @Transactional(readOnly = true)
     override fun getUsersByRole(pageable: Pageable,role: Role): Page<User> {
         return userRepository.findAllByRole(pageable=pageable,role=role)
+    }
+
+    override fun me(): MyInfo {
+    val user =    userRepository.findById(securityContextUtil.getCurrentUserId()).orElseThrow{
+        UserNotFoundException("User not found")
+    }
+        return MyInfo(
+            username = user.username,
+            firstName = user.firstName,
+            lastName = user.lastName,
+            email = user.email,
+            role = user.role,
+            workerPermissions = user.workerPermissions,
+            phoneNUmber = user.phoneNUmber,
+            startDate = user.startDate,
+            twoFactorenabled = user.twoFactorenabled
+        )
     }
 
     @Transactional(readOnly = true)
