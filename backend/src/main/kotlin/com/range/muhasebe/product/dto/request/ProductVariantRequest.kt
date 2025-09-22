@@ -1,10 +1,16 @@
 package com.range.muhasebe.product.dto.request
 
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 import java.math.BigDecimal
 
 data class ProductVariantRequest(
+    @field:NotBlank
     val name: String,
+    @field:NotBlank
     val price: BigDecimal,
-    val quantity: Int,
-    val barcode: String? = null
+    @field:NotNull
+    var quantity: Int,
+    @field:NotNull
+    var barcode: String? = null
 )

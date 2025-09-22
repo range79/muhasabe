@@ -15,7 +15,7 @@ data class ProductVariant(
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id")
     val product: Product,
-
+    @Column(nullable = false)
     var name: String, // örn: "512GB"
     var price: BigDecimal,
     var quantity: Int,

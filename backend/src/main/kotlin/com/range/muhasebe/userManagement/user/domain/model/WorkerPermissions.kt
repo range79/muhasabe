@@ -21,7 +21,7 @@ enum class WorkerPermissions {
 
 
     GET_ORDER,
-    REMOVE_ORDER,
+    REMOVE_ORDER;
 
     fun permissionname(): String{
         return "PERM_${name}"
