@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import reactor.core.scheduler.Scheduler
 
 @Configuration
 class SecurityConfig(private val jwtFilter: JWTFilter,
@@ -37,28 +38,35 @@ class SecurityConfig(private val jwtFilter: JWTFilter,
 
 
                 authorize ("$prefix/admin/user/**",hasAuthority(Role.ROLE_ADMIN.authority))
-                authorize ( "${prefix}/admin/group/**",hasAuthority(Role.ROLE_ADMIN.authority) )
+                authorize ( "${prefix}/admin/roles/**",hasAuthority(Role.ROLE_ADMIN.authority) )
 
                 authorize("$prefix/workers/management",hasAuthority(Role.ROLE_OWNER.authority))
 
-                //add
+                //Categories
                 authorize (HttpMethod.POST,"${prefix}/categories",hasAnyAuthority( Role.ROLE_OWNER.authority, WorkerPermissions.ADD_CATEGORY.permissionname()))
-                authorize(HttpMethod.POST,"${prefix}/products",hasAnyAuthority( Role.ROLE_OWNER.authority,WorkerPermissions.ADD_PRODUCT.permissionname()))
-
-
-
-
-                //GET
                 authorize (HttpMethod.GET,"${prefix}/categories",hasAnyAuthority( Role.ROLE_OWNER.authority, WorkerPermissions.GET_CATEGORY.permissionname()))
-                authorize(HttpMethod.GET,"${prefix}/products/**",hasAnyAuthority( Role.ROLE_OWNER.authority))
 
 
-                //patch
+
+
+
+                //Customer
+                authorize (HttpMethod.GET,"${prefix}/customers/**",
+                    hasAnyAuthority(Role.ROLE_OWNER.authority, WorkerPermissions.GET_CUSTOMERS.permissionname()))
+                authorize(HttpMethod.DELETE,"${prefix}/customers/**",
+                    hasAnyAuthority(Role.ROLE_OWNER.authority, WorkerPermissions.REMOVE_CUSTOMERS.permissionname()))
+                authorize(HttpMethod.POST,
+                    "${prefix}/customers/**",hasAnyAuthority(Role.ROLE_OWNER.authority,
+                        WorkerPermissions.ADD_CUSTOMERS.permissionname())  )
+
+                //Product
                 authorize(HttpMethod.PATCH,"${prefix}/products/**",hasAnyAuthority( Role.ROLE_OWNER.authority,WorkerPermissions.UPDATE_PRODUCT.permissionname()))
-
-                //delete
+                authorize(HttpMethod.POST,"${prefix}/products",hasAnyAuthority( Role.ROLE_OWNER.authority,WorkerPermissions.ADD_PRODUCT.permissionname()))
+                authorize(HttpMethod.GET,"${prefix}/products/**",hasAnyAuthority( Role.ROLE_OWNER.authority))
                 authorize (HttpMethod.DELETE,"${prefix}/products/**",hasAnyAuthority(Role.ROLE_OWNER.authority,
                     WorkerPermissions.REMOVE_PRODUCT.permissionname()))
+
+//ORDER
 
 
 

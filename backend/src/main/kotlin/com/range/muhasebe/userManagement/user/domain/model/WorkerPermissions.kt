@@ -10,8 +10,18 @@ enum class WorkerPermissions {
     GET_PRODUCT,
     REMOVE_PRODUCT,
     UPDATE_PRODUCT,
-    ADD_PRODUCT;
-    //USER MANAGEMENT
+    ADD_PRODUCT,
+
+    //CUSTOMER
+    GET_CUSTOMERS,
+    REMOVE_CUSTOMERS,
+    UPDATE_CUSTOMERS,
+    ADD_CUSTOMERS,
+
+
+
+    GET_ORDER,
+    REMOVE_ORDER,
 
     fun permissionname(): String{
         return "PERM_${name}"

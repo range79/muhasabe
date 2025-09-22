@@ -16,7 +16,7 @@ data class Order(
     val quantity: Int,
     val totalPrice: BigDecimal,
     val priceAtPurchase: BigDecimal,
-    val status: OrderStatus,
+    var status: OrderStatus,
     val createdAt: LocalDateTime=LocalDateTime.now(),
     val updatedAt: LocalDateTime=LocalDateTime.now()
 )

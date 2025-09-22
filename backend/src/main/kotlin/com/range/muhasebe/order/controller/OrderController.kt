@@ -28,8 +28,12 @@ class OrderController(
         return orderService.getAllOrders(pageable)
     }
 
-    override fun deleteOrder(orderId: UUID) {
-        return orderService.deleteOrder(orderId)
+    override fun cancelOrder(orderId: UUID) {
+        return orderService.cancelOrder(orderId)
+    }
+
+    override fun acceptOrder(orderId: UUID) {
+        return orderService.acceptOrder(orderId)
     }
 
     override fun getOrderById(orderId: UUID): Order {

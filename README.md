@@ -1604,8 +1604,6 @@ This project requires the following dependencies:
 
 ### Installation
 
-Build muhasabe from the source and intsall dependencies:
-
 1. **Clone the repository:**
 
     ```sh
@@ -1620,9 +1618,112 @@ Build muhasabe from the source and intsall dependencies:
 
 3. **Install the dependencies:**
 
-	```sh
-	❯ gradle build
-	```
+    ```sh
+    ❯ gradle build
+    ```
+
+## Run Services with Docker Compose
+
+Start PostgreSQL and Redis with Docker Compose:
+
+```sh
+❯ docker-compose up -d
+````
+
+## Configuration
+
+The main application configuration file is located in:
+
+```
+muhasebe/backend/src/main/resources/application.properties
+```
+
+
+
+```properties
+# Application
+spring.application.name=<app-name>
+
+# SMTP Email Configuration
+spring.mail.host=<smtp-host>
+spring.mail.port=<smtp-port>
+spring.mail.username=<smtp-username>
+spring.mail.password=<smtp-password>
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+# Database Configuration
+spring.datasource.url=<jdbc-url>
+spring.datasource.username=<db-username>
+spring.datasource.password=<db-password>
+spring.datasource.driver-class-name=<driver-class>
+
+spring.jpa.properties.hibernate.default_schema=<schema>
+spring.jpa.properties.hibernate.database-platform=<dialect>
+spring.jpa.hibernate.ddl-auto=<ddl-auto>
+spring.jpa.show-sql=true
+
+# JDBC Dialect
+spring.data.jdbc.dialect=<jdbc-dialect>
+
+# Redis Configuration
+spring.data.redis.host=<redis-host>
+spring.data.redis.port=<redis-port>
+spring.cache.type=<cache-type>
+
+# API
+api.prefix=/api/v1
+
+# JWT
+jwt.secret=<jwt-secret>
+jwt.duration=<jwt-duration>
+
+# App URL
+app.url=<app-url>
+
+# Resilience4j Rate Limiters
+resilience4j.ratelimiter.instances.register.limit-for-period=<limit>
+resilience4j.ratelimiter.instances.register.limit-refresh-period=<period>
+resilience4j.ratelimiter.instances.login.limit-for-period=<limit>
+resilience4j.ratelimiter.instances.login.limit-refresh-period=<period>
+resilience4j.ratelimiter.instances.resetPassword.limit-for-period=<limit>
+resilience4j.ratelimiter.instances.forgotPasswordRequest.limit-for-period=<limit>
+resilience4j.ratelimiter.instances.forgotPasswordRequest.limit-refresh-period=<period>
+```
+
+---
+The main Docker Compose file is located in:
+
+```
+muhasebe/compose.yaml
+```
+
+### Docker Compose Template (`compose.yml`)
+
+```yaml
+version: "3.9"
+services:
+  postgres:
+    image: <postgres-image>
+    environment:
+      - POSTGRES_DB=<db-name>
+      - POSTGRES_USER=<db-user>
+      - POSTGRES_PASSWORD=<db-password>
+    ports:
+      - "<host-port>:<container-port>"
+
+  redis:
+    image: <redis-image>
+    command: <redis-command>
+    volumes:
+      - redis_data:/data
+    ports:
+      - "<host-port>:<container-port>"
+
+volumes:
+  redis_data:
+```
+
 
 ### Usage
 

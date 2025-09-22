@@ -20,8 +20,10 @@ interface OrderApi {
     @GetMapping
     fun getAllOrders(pageable: Pageable): Page<Order>
 
-    @DeleteMapping("/{orderId}")
-    fun deleteOrder(@PathVariable orderId: UUID)
+    @PatchMapping("/cancel/{orderId}")
+    fun cancelOrder(@PathVariable orderId: UUID)
+    @PatchMapping("/accept/{orderId}")
+    fun acceptOrder(@PathVariable orderId: UUID)
 
     @GetMapping("/{orderId}")
     fun getOrderById(@PathVariable orderId: UUID): Order
