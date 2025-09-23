@@ -24,6 +24,11 @@ interface OrderApi {
     fun cancelOrder(@PathVariable orderId: UUID)
     @PatchMapping("/accept/{orderId}")
     fun acceptOrder(@PathVariable orderId: UUID)
+    @PutMapping("/{orderId}")
+    fun updateOrder(
+        @PathVariable orderId: UUID,
+        @RequestBody orderRequest: OrderRequest
+    )
 
     @GetMapping("/{orderId}")
     fun getOrderById(@PathVariable orderId: UUID): Order

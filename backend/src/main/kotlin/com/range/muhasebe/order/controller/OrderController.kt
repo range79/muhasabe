@@ -36,6 +36,13 @@ class OrderController(
         return orderService.acceptOrder(orderId)
     }
 
+    override fun updateOrder(
+        orderId: UUID,
+        orderRequest: OrderRequest
+    ) {
+        return orderService.updateOrder(orderId,orderRequest)
+    }
+
     override fun getOrderById(orderId: UUID): Order {
         return orderService.getOrderById(orderId)
     }

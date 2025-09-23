@@ -16,5 +16,6 @@ interface  OrderService {
     fun getOrderById(orderId: UUID): Order
     fun getUserAllDebt(userId: UUID): BigDecimal
     fun getTotalDebt(): BigDecimal
+    fun updateOrder(orderId: UUID, orderRequest: OrderRequest)
 
 }

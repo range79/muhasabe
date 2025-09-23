@@ -33,7 +33,7 @@ class UserServiceImplTest {
         securityContextUtil = mock(SecurityContextUtil::class.java)
         userService = UserServiceImpl(userRepository, passwordEncoder, securityContextUtil)
 
-        // Tek bir User nesnesi tüm testlerde kullanılacak
+
         user = User(
             id = UUID.randomUUID(),
             username = "testuser",

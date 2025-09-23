@@ -11,11 +11,11 @@ data class Order(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     val id: UUID? = null,
-    val customerId: UUID,
-    val productVariantId: UUID,
-    val quantity: Int,
-    val totalPrice: BigDecimal,
-    val priceAtPurchase: BigDecimal,
+    var customerId: UUID,
+    var productVariantId: UUID,
+    var quantity: Int,
+    var totalPrice: BigDecimal,
+    var priceAtPurchase: BigDecimal,
     var status: OrderStatus,
     val createdAt: LocalDateTime=LocalDateTime.now(),
     val updatedAt: LocalDateTime=LocalDateTime.now()

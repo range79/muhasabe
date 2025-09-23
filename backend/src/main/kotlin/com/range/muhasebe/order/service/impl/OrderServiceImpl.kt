@@ -25,7 +25,12 @@ class OrderServiceImpl(
     override fun createOrder(orderRequest: OrderRequest) {
         val variant = productVariantRepository.findById(orderRequest.productVariantId)
             .orElseThrow { IllegalArgumentException("Product variant not found") }
+        if (variant.quantity < orderRequest.quantity) {
+            throw IllegalStateException("Not enough stock for product variant")
+        }
         variant.quantity -= orderRequest.quantity
+
+
         productVariantRepository.save(variant)
         val priceAtPurchase = variant.price
         val total = priceAtPurchase.multiply(orderRequest.quantity.toBigDecimal())
@@ -78,6 +83,49 @@ class OrderServiceImpl(
             throw IllegalStateException("Only unpaid orders can be accepted")
         }
         order.status = OrderStatus.PAID
+        orderRepository.save(order)
+    }
+
+    @Transactional
+    override fun updateOrder(orderId: UUID, orderRequest: OrderRequest) {
+        val order = getOrderById(orderId)
+        val oldVariant = findProductVariant(order.productVariantId)
+
+
+        if (order.productVariantId != orderRequest.productVariantId) {
+
+            oldVariant.quantity += order.quantity
+            productVariantRepository.save(oldVariant)
+
+
+            val newVariant = productVariantRepository.findById(orderRequest.productVariantId)
+                .orElseThrow { IllegalArgumentException("Product variant not found") }
+
+            if (newVariant.quantity < orderRequest.quantity) {
+                throw IllegalStateException("Not enough stock for the selected product variant")
+            }
+
+
+            newVariant.quantity -= orderRequest.quantity
+            productVariantRepository.save(newVariant)
+
+            order.productVariantId = newVariant.id!!
+            order.priceAtPurchase = newVariant.price
+        } else if (order.quantity != orderRequest.quantity) {
+
+            val diff = orderRequest.quantity - order.quantity
+            if (oldVariant.quantity < diff) {
+                throw IllegalStateException("Not enough stock to increase quantity")
+            }
+            oldVariant.quantity -= diff
+            productVariantRepository.save(oldVariant)
+            order.quantity = orderRequest.quantity
+            order.totalPrice = order.priceAtPurchase.multiply(order.quantity.toBigDecimal())
+        }
+
+
+        order.customerId = orderRequest.customerId
+
         orderRepository.save(order)
     }
 
